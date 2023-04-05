@@ -49,7 +49,7 @@ exports.saveTheUserTourPost = async (take, give) => {
           privacy:take.body.privacy
       }
       const UserPostModalRepository = new UserPostModalRepositoryStorage();
-      const savedTheUserTourPost = await saveUserTourPosts(UserPostModalRepository,data);
+      const savedTheUserTourPost = await saveUserTourPosts(UserPostModalRepository, data);
       return savedTheUserTourPost;
     } catch (err) {
       throw boom.boomify(err);

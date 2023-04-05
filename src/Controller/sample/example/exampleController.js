@@ -3,13 +3,35 @@ const boom = require('boom')
 const { Configuration, OpenAIApi } = require("openai");
 // Get Data Models
 const Car = require('../../../Modals/sample/example/exampleModal');
+const axios = require('axios');
+const apiKey = "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";   //"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"  //"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";
+const client = axios.create({
+    headers: { 'Authorization': 'Bearer ' + apiKey }
+});
 
 // Get all cars
 exports.getCars = async (req, reply) => {
   try {
-    const cars = await Car.find()
-    return cars
+    // const configuration = new Configuration({
+    // apiKey: "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",
+    // });
+
+
+    // retrieve the completion text from response
+   // const completion = response.data.choices[0].text;
+
+   const params = {
+    "model":"text-davinci-003",
+  "prompt": "Tell me something about data engineering", 
+  "max_tokens": 150
+}
+
+const res = await client.post('https://api.openai.com/v1/completions', params)
+  return {status:true, data:res.data.choices[0].text }
+    // const cars = await Car.find()
+    // return cars
   } catch (err) {
+    // console.log(err,"error")
     throw boom.boomify(err)
   }
 }

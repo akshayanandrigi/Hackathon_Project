@@ -28,7 +28,7 @@ const routes = [
   {
     method: "PATCH",
     url: "/api/update-profile-image",
-    preHandler: verifyTheUserToken,
+    preHandler: [verifyTheUserToken], 
     handler: UserAuthController.updateUserProfilePicture,
   },
   {
