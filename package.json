@@ -1,0 +1,35 @@
+{
+  "name": "travel_tales",
+  "version": "1.0.0",
+  "description": "travel tales backend",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "akshay aradhya",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^7.0.0",
+    "@fastify/formbody": "^7.1.0",
+    "@fastify/multipart": "^7.1.1",
+    "@fastify/static": "^5.0.0",
+    "@fastify/swagger": "^6.0.0",
+    "boom": "^7.3.0",
+    "cloudinary": "^1.30.1",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.1",
+    "fastify": "^3.0.0",
+    "fastify-cors": "^6.1.0",
+    "fastify-multer": "^2.0.3",
+    "fastify-swagger": "^5.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.7.8",
+    "nodemon": "^2.0.19",
+    "openai": "^3.2.1",
+    "toobusy-js": "^0.5.1",
+    "twilio": "^3.81.0"
+  }
+}

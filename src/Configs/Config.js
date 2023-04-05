@@ -1,0 +1,1 @@
+exports.OTP_EXPIRE_TIME_IN_MINS = 1;
