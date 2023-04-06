@@ -5,6 +5,11 @@ const carController = require("../../../Controller/sample/example/exampleControl
 //https://www.fastify.io/docs/latest/Reference/Routes/
 const routes = [
   {
+    method: "POST",
+    url: "/api/video_cut",
+    handler: carController.cutVideo
+  },
+  {
     method: "GET",
     url: "/api/cars",
     // schema: {

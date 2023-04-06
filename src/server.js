@@ -30,6 +30,7 @@ const swagger = require('./Configs/Documentation/Swagger');
 const { commonAllRoutes } = require('./Routes/MergedEndPoints/Common/CommonAllRoutes');
 
 const { userAllRoutes } = require('./Routes/MergedEndPoints/User/UserAllRoutes');
+const {AutomatedAllCourseRoutes} =  require('./Routes/MergedEndPoints/course/courseMegedRoutes');
 
 require("dotenv").config();
 
@@ -47,6 +48,7 @@ connectToMongo();
 //common Routes
 commonAllRoutes(fastify)
 
+AutomatedAllCourseRoutes(fastify)
 //Users Routes
 userAllRoutes(fastify)
 
