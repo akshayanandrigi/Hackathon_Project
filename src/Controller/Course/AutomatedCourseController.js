@@ -4,7 +4,7 @@ const { Configuration, OpenAIApi } = require("openai");
 // Get Data Models
 //const Car = require('../../../Modals/sample/example/exampleModal');
 const axios = require('axios');
-const apiKey = "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";
+const apiKey = "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";
 const client = axios.create({
     headers: { 'Authorization': 'Bearer ' + apiKey }
 });
@@ -18,6 +18,32 @@ const {getVideoProcessingStatus} = require("../../UseCases/courses/CourseUseCase
 
 
 //create video from text
+getDifferentLangusages = async function(text){
+    let languageScript = [];
+    let conversionType = ['Hindi','Tamil','Telugu'];
+    for(let lang of conversionType){
+        let i=0;
+        const params = {
+            "model":"text-davinci-003",
+            "prompt": `convert the ${textans} to ${lang} language`,
+            "max_tokens": 3000
+        }
+        const res = await client.post('https://api.openai.com/v1/completions', params)
+        let response ;
+        if(lang === 'Hindi'){
+            response = {Hindi : res.data.choices[0].text}
+        }
+        else if(lang === 'Tamil'){
+            response = {Tamil : res.data.choices[0].text}
+        }
+        else{
+            response = {Telugu : res.data.choices[0].text}
+        }
+        languageScript.push(response)
+    }
+    return languageScript;
+}
+
 
 exports.generateVideoFromText = async  function(req,res){
     try{
@@ -29,34 +55,31 @@ exports.generateVideoFromText = async  function(req,res){
         const res = await client.post('https://api.openai.com/v1/completions', params)
         console.log(res.data.choices[0].text)
         //return {status:true, data:res.data.choices }
-        let textans = res.data.choices[0].text;
-        let languageScript = [];
-        let conversionType = ['Hindi','Tamil','Telugu'];
-        for(let lang of conversionType){
-            let i=0;
-            const params = {
-                "model":"text-davinci-003",
-                "prompt": `convert the ${textans} to ${lang} language`,
-                "max_tokens": 3000
-            }
-            const res = await client.post('https://api.openai.com/v1/completions', params)
-            let response ;
-            if(lang === 'Hindi'){
-                response = {Hindi : res.data.choices[0].text}
-            }
-            else if(lang === 'Tamil'){
-                response = {Tamil : res.data.choices[0].text}
-            }
-            else{
-                response = {Telugu : res.data.choices[0].text}
-            }
-
-            console.log(response);
-            languageScript.push(response)
-        }
+        let textans = JSON.stringify(res.data.choices[0].text);
+        // let conversionType = ['Hindi','Tamil','Telugu'];
+        // for(let lang of conversionType){
+        //     let i=0;
+        //     const params = {
+        //         "model":"text-davinci-003",
+        //         "prompt": `convert the ${textans} to ${lang} language`,
+        //         "max_tokens": 3000
+        //     }
+        //     const res = await client.post('https://api.openai.com/v1/completions', params)
+        //     let response ;
+        //     if(lang === 'Hindi'){
+        //         response = {Hindi : res.data.choices[0].text}
+        //     }
+        //     else if(lang === 'Tamil'){
+        //         response = {Tamil : res.data.choices[0].text}
+        //     }
+        //     else{
+        //         response = {Telugu : res.data.choices[0].text}
+        //     }
+        //     languageScript.push(response)
+        // }
         const options = {
             method: 'POST',
-            url: 'https://apis.elai.io/api/v1/videos/generate/gpt3',
+            url: 'https://apis.elai.io/api/v1/videos/generate/text',
             headers: {
                 accept: 'application/json',
                 'content-type': 'application/json',
@@ -65,12 +88,9 @@ exports.generateVideoFromText = async  function(req,res){
             data: {from: textans, templateId: '631a066fa5586656bf41f088', waitForVideo: false}
         };
         let da = await axios.request(options)
-        //return da.data
-        return {
-            status : "success",
-            data: languageScript,
-        }
+        return da.data
     } catch (err) {
+        console.log(err)
         throw boom.boomify(err)
     }
 }
@@ -89,21 +109,20 @@ exports.getVideoFromElai = async function(req,res){
                 Authorization: 'Bearer 63DfmUXS6Yz6wSRkIHnqjnF8yvxAIcc6'
             },
         };
-        let renderingStatus = await axios.request(options)
-        return { status:true, data:[foundVideoProcesses[0],renderingStatus?.data?.videos[0]?.data?.waitingTime]}
+        // let renderingStatus = await axios.request(options)
+        // let mainText = "";
+        // for(let slide of renderingStatus?.videos[0]?.slides.length){
+        //     mainText.concat(slide?.speech);
+        // }
+        // let languageScript = [];
+        //languageScript = getDifferentLangusages(mainText)
+        return { status:true, data:[foundVideoProcesses[0]]}
     } catch (err) {
         throw boom.boomify(err)
     }
 }
 
-exports.fetchRenderingStatus = async function(req,res){
-    try{
-        let timeLeft;
 
-    }catch(err){
-        throw boom.boomify(err)
-    }
-}
 // Get all videos
 exports.cutVideo = async function(req,res){
     try{
